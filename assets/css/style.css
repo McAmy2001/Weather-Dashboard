@@ -1,3 +1,10 @@
+:root {
+  --primary: #fce7d9;
+  --secondary: #0f084b;
+  --tertiary: #c9d9e4;
+  --accent: #b2675e;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,14 +12,18 @@
 }
 
 body {
-  background-color: #fce7d9;
+  background-color: var(--primary);
 }
 
-h1 {
-  color: #0f084b;
+header {
+  color: var(--secondary);
   text-align: center;
-  background-color: #bdd4ef;
+  background-color: var(--tertiary);
   padding: 40px;
   background-image: url(../images/eveningsky.jpg);
   background-position: 80%;
+  font-size: 2.0em;
+}
+header p {
+  font-size: 24px;
 }

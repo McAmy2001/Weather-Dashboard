@@ -1,4 +1,7 @@
 const cityBtnEl = document.getElementById("cityBtn");
+const chooseCityEl = document.getElementById("choose-city");
+const cityInputEl = document.getElementById("city");
+const chosenCityEl = document.getElementById("chosenCity");
 
 var weatherByCoordinates = function(latLon) {
   console.log("made it");
@@ -6,9 +9,19 @@ var weatherByCoordinates = function(latLon) {
   
   fetch(apiUrl2).then(function(response) {
     console.log(response);
-    
+    if (response.ok) {
+      response.json().then(function(data) {
+      console.log(data);
+      var 
+      displayCurrentWeather();
+      });
+    } else {
+      alert("Location not found, please try another.");
+    }
+  })
+  .catch(function(error) {
+    alert("Unable to connnect to OpenWeather.")
   });
-  
 };
 
 var weatherByCity = function(city) {
@@ -31,38 +44,24 @@ var weatherByCity = function(city) {
       console.log(latLon);
       weatherByCoordinates(latLon);
       });
-    };
-  });
+    } else {
+      alert("Error: city not found, please try another.");
+    }
+  })
+  .catch(function(error) {
+    alert("Unable to connect to OpenWeather.");
+});
 };
 
-//      fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latEdit + "&lon=" + lonEdit + "&units=imperial&exclude=hourly,minutely&appid=b8646725b8d223e6d4478a73d1089c53");
-//      console.log(response);
-//      if (response.ok) {
-//        console.log(response);
-//        response.json().then(function(data) {
-//        console.log(data);
-    
-    //
-    //}
-    //else {
-    //  console.log("response not ok");
-    //}
-  //}.then(function(data) {
+var cityBtnHandler = function(event) {
+  event.preventDefault();
+  //console.log("Clicked");
+  var city = cityInputEl.value.trim();
+  console.log(city);
+  weatherByCity(city);
+  cityInputEl.value = ''; 
+}
+
   
-  //}).then(function(response) {
-  //  if (response.ok) {
-  //    return response.json();
-  //  }
-  //  else {
-  //    console.log("response 2 not ok");
-  //  }
-  //}).then(function() {
-  //  var finalData = data;
-  //  console.log(finalData);
-  //}).catch(function(error) {
-  //  console.log("Error");
-  //});
-//};//
-  
-//cityBtnEl.addEventListener("click", getWeather(city));
-weatherByCity("Oakdale");
+chooseCityEl.addEventListener("submit", cityBtnHandler);
+//weatherByCity("Oakdale");

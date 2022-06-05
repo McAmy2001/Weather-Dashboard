@@ -18,25 +18,35 @@
   <main class="flex-row justify-space-between">
     
     <!-- Left side -->
-    <div class="flex-column">
+    <div class="flex-column no-gutters">
 
-      <div class="card col-12 col-md-4">
-        <h4 class="card-header text-uppercase">Choose a    City</h4>
+      <div class="right-div col-12 col-md-3">
+        <h4 class="text-uppercase">Choose a City</h4>
           <form id="choose-city" class="card-body">
             <label class="form-label" for="city"></label>
             <input name="city" id="city" type="text" autofocus="true" class="form-input" />
-            <button id="cityBtn" type="button" class="btn">Submit</button>
+            <button id="cityBtn" type="submit" class="btn">Submit</button>
           </form>
       </div>
 
-      <div class="card col-12 col-md-4">
-        <h5 class="card-header text-uppercase">Past Searches:</h5>
+      <div class="right-div col-12 col-md-3">
+        <h5 class="text-uppercase">Past Searches:</h5>
       </div>
 
     </div>
 
       <!-- Right container -->
-      <div>
+      <div class="flex-column no-gutters">
+        <!--! Current Weather container -->
+        <div id="current-weather">
+          <h2>Current Weather In <span id="chosenCity"></span>:</h2>
+
+        </div>
+
+        <!-- Forecast containter -->
+        <div>
+
+        </div>
 
       </div>
 

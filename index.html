@@ -9,18 +9,18 @@
   <link rel="stylesheet" href="./assets/css/style.css">
   <title>Document</title>
 </head>
-<body class="flex-column" >
+<body class="container">
 
   <header>
     <h1 id="dashboard-title">Weather Dashboard</h1>
   </header>
 
-  <main class="flex-row justify-space-between">
+  <main class="row justify-space-between">
     
     <!-- Left side -->
-    <div class="flex-column no-gutters">
+    <div class="col-12 col-md-3 no-gutters">
 
-      <div class="right-div col-12 col-md-3">
+      <div class="left-div">
         <h4 class="text-uppercase">Choose a City</h4>
           <form id="choose-city" class="card-body">
             <label class="form-label" for="city"></label>
@@ -29,22 +29,22 @@
           </form>
       </div>
 
-      <div class="right-div col-12 col-md-3">
+      <div class="left-div">
         <h5 class="text-uppercase">Past Searches:</h5>
       </div>
 
     </div>
 
       <!-- Right container -->
-      <div class="flex-column no-gutters">
+    <div class="col-12 col-md-9 no-gutters">
         <!--! Current Weather container -->
-        <div id="current-weather">
-          <h2>Current Weather In <span id="chosenCity"></span>:</h2>
+        <div id="current-weather" class="right-div">
+          <h3>Current Weather in <span id="chosenCity"></span>:</h3>
 
         </div>
 
         <!-- Forecast containter -->
-        <div>
+        <div class="forecast" id="forecast-weather">
 
         </div>
 
@@ -52,6 +52,7 @@
 
     </div>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ const chooseCityEl = document.getElementById("choose-city");
 const cityInputEl = document.getElementById("city");
 const chosenCityEl = document.getElementById("chosenCity");
 const currentWeatherDisplay = document.getElementById("current-weather");
+const forecastDisplayEl = document.getElementById("forecast-weather");
 
 
 var displayCurrentWeather = function(weatherArray) {
@@ -40,6 +41,33 @@ var displayCurrentWeather = function(weatherArray) {
 
 var displayForecast = function(forecastArray) {
   console.log(forecastArray);
+
+  for (var i = 0; i < 5; i++) {
+    console.log(forecastArray[i].temp.day);
+    var forecastBoxEl = document.createElement("div");
+    forecastBoxEl.className = "forecast-box";
+    forecastDisplayEl.appendChild(forecastBoxEl);
+
+    var forecastTempEl = document.createElement("p");
+    forecastTempEl.innerHTML = "Temperature: " + forecastArray[i].temp.day + "&#8457";
+    forecastTempEl.className = "forecast-list-item";
+    forecastDisplayEl.appendChild(forecastTempEl);
+
+    var forecastHumidityEl = document.createElement("p");
+    forecastHumidityEl.innerHTML = "Humidity: " + forecastArray[i].humidity + "%";
+    forecastHumidityEl.className = "forecast-list-item";
+    forecastDisplayEl.appendChild(forecastHumidityEl);
+
+    var forecastWindSpeedEl = document.createElement("p");
+    forecastWindSpeedEl.innerHTML = "Wind Speed: " + forecastArray[i].wind_speed + "mph";
+    forecastWindSpeedEl.className = "forecast-list-item";
+    forecastDisplayEl.appendChild(forecastWindSpeedEl);
+
+    var forecastUVIEl = document.createElement("p");
+    forecastUVIEl.innerHTML = "UV Index: " + forecastArray[i].uvi;
+    forecastUVIEl.className = "forecast-list-item";
+    forecastDisplayEl.appendChild(forecastUVIEl);
+  }
 }
 
 var weatherByCoordinates = function(latLon) {

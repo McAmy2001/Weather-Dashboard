@@ -34,6 +34,7 @@ header p {
   background-color: var(--tertiary);
   margin-bottom: 10px;
   border: 2px solid var(--secondary);
+  border-radius: 5px;
   width: 100%;
 }
 .left-div h4, .left-div h5 {
@@ -50,6 +51,7 @@ header p {
   margin-top: 2px;
   font-size: 20px;
   font-weight: bold;
+  border-radius: 5px;
 }
 #city {
   width: 100%;
@@ -61,4 +63,12 @@ header p {
 }
 .current-box {
   border: 2px solid var(--secondary);
+}
+.forecast-box {
+  display: flex;
+  flex-direction: column;
+  
+}
+.forecast-list-item {
+  width: 100%;
 }

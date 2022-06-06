@@ -41,29 +41,37 @@ var displayCurrentWeather = function(weatherArray) {
 
 var displayForecast = function(forecastArray) {
   console.log(forecastArray);
+  console.log(forecastArray[0].dt);
 
   for (var i = 0; i < 5; i++) {
     console.log(forecastArray[i].temp.day);
-    var forecastBoxEl = document.createElement("div");
+    var forecastBoxEl = document.createElement("ul");
     forecastBoxEl.className = "forecast-box";
     forecastDisplayEl.appendChild(forecastBoxEl);
 
-    var forecastTempEl = document.createElement("p");
+    var futureDateDisplay = document.createElement("li");
+    var timeMilleseconds = forecastArray[i].dt * 1000;
+    var dateObject = new Date(timeMilleseconds);
+    var formattedDate = dateObject.toLocaleString("en-US", {weekday: "long"}) + ", " + dateObject.toLocaleString("en-US", {month: "long"}) + " " + dateObject.toLocaleString("en-US", {day: "numeric"}) + ", " + dateObject.toLocaleString("en-US", {year: "numeric"});
+    futureDateDisplay.textContent = formattedDate;
+    forecastDisplayEl.appendChild(futureDateDisplay);
+
+    var forecastTempEl = document.createElement("li");
     forecastTempEl.innerHTML = "Temperature: " + forecastArray[i].temp.day + "&#8457";
     forecastTempEl.className = "forecast-list-item";
     forecastDisplayEl.appendChild(forecastTempEl);
 
-    var forecastHumidityEl = document.createElement("p");
+    var forecastHumidityEl = document.createElement("li");
     forecastHumidityEl.innerHTML = "Humidity: " + forecastArray[i].humidity + "%";
     forecastHumidityEl.className = "forecast-list-item";
     forecastDisplayEl.appendChild(forecastHumidityEl);
 
-    var forecastWindSpeedEl = document.createElement("p");
+    var forecastWindSpeedEl = document.createElement("li");
     forecastWindSpeedEl.innerHTML = "Wind Speed: " + forecastArray[i].wind_speed + "mph";
     forecastWindSpeedEl.className = "forecast-list-item";
     forecastDisplayEl.appendChild(forecastWindSpeedEl);
 
-    var forecastUVIEl = document.createElement("p");
+    var forecastUVIEl = document.createElement("li");
     forecastUVIEl.innerHTML = "UV Index: " + forecastArray[i].uvi;
     forecastUVIEl.className = "forecast-list-item";
     forecastDisplayEl.appendChild(forecastUVIEl);

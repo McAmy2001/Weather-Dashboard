@@ -58,17 +58,18 @@ header p {
   height: 40px;
 }
 .forecast {
-  display: flex;
+  display: inline;
   
 }
 .current-box {
   border: 2px solid var(--secondary);
 }
-.forecast-box {
+#forecast-box {
   display: flex;
   flex-direction: column;
   
 }
 .forecast-list-item {
   width: 100%;
+  
 }

@@ -9,45 +9,48 @@
   <link rel="stylesheet" href="./assets/css/style.css">
   <title>Document</title>
 </head>
-<body class="container">
+<body>
 
   <header>
     <h1 id="dashboard-title">Weather Dashboard</h1>
   </header>
 
-  <main class="row justify-space-between">
+  <main class="container">
     
-    <!-- Left side -->
-    <div class="col-12 col-md-3 no-gutters">
-
-      <div class="left-div">
-        <h4 class="text-uppercase">Choose a City</h4>
-          <form id="choose-city" class="card-body">
+    
+    <div class="row">
+      <!-- Left side -->
+      <div class="left-div col-12 col-md-3">
+        <div class="city-search">
+          <h4 class="text-uppercase">Choose a City</h4>
+          <form id="choose-city">
             <label class="form-label" for="city"></label>
             <input name="city" id="city" type="text" autofocus="true" class="form-input" />
             <button id="cityBtn" type="submit" class="btn">Submit</button>
           </form>
+        </div>
+
+        <div class="left-div" id="past-city-list">
+          <h5 class="text-uppercase">Past Searches:</h5>
+        </div>
       </div>
 
-      <div class="left-div">
-        <h5 class="text-uppercase">Past Searches:</h5>
-      </div>
-
-    </div>
-
-      <!-- Right container -->
-    <div class="col-12 col-md-9 no-gutters">
+      <!-- Right side -->
+      <div class="right-div col-12 col-md-9">
+        <div class="row">
         <!--! Current Weather container -->
-        <div id="current-weather" class="right-div">
+        <div id="current-weather" class="col-12 current-display">
           <h3>Current Weather in <span id="chosenCity"></span>:</h3>
-
         </div>
-
         <!-- Forecast containter -->
-        <div class="forecast" id="forecast-weather">
-
+        <div class="forecast-display col-12" id="forecast-weather">
+          <div id="forecast1"></div>
+          <div id="forecast2"></div>
+          <div id="forecast3"></div>
+          <div id="forecast4"></div>
+          <div id="forecast5"></div>
         </div>
-
+      </div>
       </div>
 
     </div>

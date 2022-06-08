@@ -117,9 +117,6 @@ main {
   flex-wrap: nowrap;
   margin: 10px;
 }
-.forecast-display {
-  display: flex;
-}
 
 .forecast-display-div {
   display: flex;
@@ -133,4 +130,23 @@ main {
 .forecast-list-item {
   font-weight: 500;
   color: var(--secondary);
+}
+@media screen and (max-width: 575px) {
+  .forecast-weather {
+    flex-wrap: wrap;
+  }
+  .forecast-display-div {
+    width: 100%;
+    align-items: center;
+  }
+  .current-display {
+    margin: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .current-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

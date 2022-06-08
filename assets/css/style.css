@@ -87,12 +87,28 @@ main {
   color: var(--accent);
 }
 
-.right-div {
-  }
-
 .current-display {
   border: 2px solid var(--secondary);
+  border-radius: 5px;
   margin: 10px;
+  background-color: var(--tertiary);
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.current-list-item {
+  font-size: 20px;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+#icon-container {
+  flex-basis: 50%;
+}
+
+.current-icon {
+  width: 80%;
 }
 
 .forecast-weather {
@@ -109,8 +125,12 @@ main {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  border: 1px solid var(--secondary);
+  border: 2px solid var(--secondary);
   align-items: stretch;
-  
+  background-color: var(--tertiary);
 }
 
+.forecast-list-item {
+  font-weight: 500;
+  color: var(--secondary);
+}

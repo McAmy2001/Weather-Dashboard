@@ -6,10 +6,11 @@ const currentWeatherDisplay = document.getElementById("current-weather");
 const forecastDisplayEl = document.getElementById("forecast-weather");
 const pastCityListEl = document.getElementById("past-city-list");
 const clearCityHistoryEl = document.getElementById("clear-saved-cities");
+const iconContainerEl = document.getElementById("icon-container");
 
 
 var displayCurrentWeather = function(weatherArray) {
-
+  //console.log(weatherArray);
   var currentDate = document.createElement("p");
   const day = moment().format('dddd');
   const date = moment().format('MMMM Do YYYY');
@@ -39,18 +40,23 @@ var displayCurrentWeather = function(weatherArray) {
   currentWeatherDisplay.appendChild(currentWindSpeed);
 
   currentWeatherDisplay.classList.add("current-box");
+
+  var icon = weatherArray[4];
+  var iconImg = document.createElement("img");
+  iconImg.src = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+  iconImg.className = ("current-icon");
+  iconContainerEl.appendChild(iconImg);
 };
 
 var displayForecast = function(forecastArray) {
-  console.log(forecastArray);
-  console.log(forecastArray[0].dt);
+  //console.log(forecastArray);
+  //console.log(forecastArray[0].dt);
 
   for (var i = 1; i < 6; i++) {
-    console.log(forecastArray[i].temp.day);
-    console.log(forecastArray[i].weather[0].icon);
+    //console.log(forecastArray[i].temp.day);
+    //console.log(forecastArray[i].weather[0].icon);
     var forecastBoxEl = document.createElement("div");
     forecastBoxEl.className = "forecast-display-div";
-    //forecastDisplayEl.appendChild(forecastBoxEl);
 
     var futureDateDisplay = document.createElement("p");
     var timeMilleseconds = forecastArray[i].dt * 1000;
@@ -59,11 +65,11 @@ var displayForecast = function(forecastArray) {
     futureDateDisplay.textContent = formattedDate;
     forecastBoxEl.appendChild(futureDateDisplay);
 
-    var weatherIconEl = document.createElement("img");
+    
     var icon = forecastArray[i].weather[0].icon;
-    var iconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
-    weatherIconEl.innerHTML = "<img src='" + iconUrl + "'>";
-    forecastBoxEl.appendChild(weatherIconEl);
+    var iconImg = document.createElement("img");
+    iconImg.src = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+    forecastBoxEl.appendChild(iconImg);
 
     var forecastTempEl = document.createElement("p");
     forecastTempEl.innerHTML = "Temperature: " + forecastArray[i].temp.day + "&#8457";
@@ -94,14 +100,16 @@ var weatherByCoordinates = function(latLon) {
   var apiUrl2 = ("https://api.openweathermap.org/data/2.5/onecall?lat=" + latLon + "&units=imperial&exclude=hourly,minutely&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl2).then(function(response) {
-    console.log(response);
+    //console.log(response);
     if (response.ok) {
       response.json().then(function(data) {
+        //console.log(data);
       var currentWeather = [
         data.current.temp,
         data.current.humidity,
         data.current.uvi,
-        data.current.wind_speed]
+        data.current.wind_speed,
+        data.current.weather[0].icon]
         console.log(currentWeather);
       displayCurrentWeather(currentWeather);
 
@@ -118,7 +126,7 @@ var weatherByCoordinates = function(latLon) {
 };
 
 var saveCity = function(cityInput) {
-  console.log("went to save function");
+  //console.log("went to save function");
   const storageCities = localStorage.getItem("savedCities");
   const currentCity = {city: cityInput};
 
@@ -143,7 +151,6 @@ var weatherByCity = function(city) {
       response.json().then(function(data) {
       var cityInput = data.name;
       console.log(city);
-      //var initialData = data;
       var latitude = data.coord.lat;
       var latEdit = latitude.toFixed(2);
       //console.log(latEdit);
@@ -176,7 +183,7 @@ var cityBtnHandler = function(event) {
 
 var listCities = function() {
   const storageCities = localStorage.getItem("savedCities");const listedCities = JSON.parse(storageCities);
-  console.log(listedCities);
+  //console.log(listedCities);
 
   if (listedCities) {
   for (var i = 0; i < listedCities.length; i++) {
@@ -190,9 +197,9 @@ var listCities = function() {
   listCities();
 
 var pastCityBtnHandler = function(e) {
-  console.log(e.target);
+  //console.log(e.target);
   var city = e.target.textContent;
-  console.log(city);
+  //console.log(city);
   weatherByCity(city);
 };
 

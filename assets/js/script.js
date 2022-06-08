@@ -5,6 +5,7 @@ const chosenCityEl = document.getElementById("chosenCity");
 const currentWeatherDisplay = document.getElementById("current-weather");
 const forecastDisplayEl = document.getElementById("forecast-weather");
 const pastCityListEl = document.getElementById("past-city-list");
+const clearCityHistoryEl = document.getElementById("clear-saved-cities");
 
 
 var displayCurrentWeather = function(weatherArray) {
@@ -44,38 +45,47 @@ var displayForecast = function(forecastArray) {
   console.log(forecastArray);
   console.log(forecastArray[0].dt);
 
-  for (var i = 0; i < 5; i++) {
+  for (var i = 1; i < 6; i++) {
     console.log(forecastArray[i].temp.day);
+    console.log(forecastArray[i].weather[0].icon);
     var forecastBoxEl = document.createElement("div");
     forecastBoxEl.className = "forecast-display-div";
-    forecastDisplayEl.appendChild(forecastBoxEl);
+    //forecastDisplayEl.appendChild(forecastBoxEl);
 
     var futureDateDisplay = document.createElement("p");
     var timeMilleseconds = forecastArray[i].dt * 1000;
     var dateObject = new Date(timeMilleseconds);
-    var formattedDate = dateObject.toLocaleString("en-US", {weekday: "long"}) + ", " + dateObject.toLocaleString("en-US", {month: "long"}) + " " + dateObject.toLocaleString("en-US", {day: "numeric"}) + ", " + dateObject.toLocaleString("en-US", {year: "numeric"});
+    var formattedDate = dateObject.toLocaleString("en-US", {month: "long"}) + " " + dateObject.toLocaleString("en-US", {day: "numeric"}) + ", " + dateObject.toLocaleString("en-US", {year: "numeric"});
     futureDateDisplay.textContent = formattedDate;
-    forecastDisplayEl.appendChild(futureDateDisplay);
+    forecastBoxEl.appendChild(futureDateDisplay);
+
+    var weatherIconEl = document.createElement("img");
+    var icon = forecastArray[i].weather[0].icon;
+    var iconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+    weatherIconEl.innerHTML = "<img src='" + iconUrl + "'>";
+    forecastBoxEl.appendChild(weatherIconEl);
 
     var forecastTempEl = document.createElement("p");
     forecastTempEl.innerHTML = "Temperature: " + forecastArray[i].temp.day + "&#8457";
     forecastTempEl.className = "forecast-list-item";
-    forecastDisplayEl.appendChild(forecastTempEl);
+    forecastBoxEl.appendChild(forecastTempEl);
 
     var forecastHumidityEl = document.createElement("p");
     forecastHumidityEl.innerHTML = "Humidity: " + forecastArray[i].humidity + "%";
     forecastHumidityEl.className = "forecast-list-item";
-    forecastDisplayEl.appendChild(forecastHumidityEl);
+    forecastBoxEl.appendChild(forecastHumidityEl);
 
     var forecastWindSpeedEl = document.createElement("p");
     forecastWindSpeedEl.innerHTML = "Wind Speed: " + forecastArray[i].wind_speed + "mph";
     forecastWindSpeedEl.className = "forecast-list-item";
-    forecastDisplayEl.appendChild(forecastWindSpeedEl);
+    forecastBoxEl.appendChild(forecastWindSpeedEl);
 
     var forecastUVIEl = document.createElement("p");
     forecastUVIEl.innerHTML = "UV Index: " + forecastArray[i].uvi;
     forecastUVIEl.className = "forecast-list-item";
-    forecastDisplayEl.appendChild(forecastUVIEl);
+    forecastBoxEl.appendChild(forecastUVIEl);
+
+    forecastDisplayEl.appendChild(forecastBoxEl);
   }
 }
 
@@ -84,7 +94,7 @@ var weatherByCoordinates = function(latLon) {
   var apiUrl2 = ("https://api.openweathermap.org/data/2.5/onecall?lat=" + latLon + "&units=imperial&exclude=hourly,minutely&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl2).then(function(response) {
-    //console.log(response);
+    console.log(response);
     if (response.ok) {
       response.json().then(function(data) {
       var currentWeather = [
@@ -92,7 +102,7 @@ var weatherByCoordinates = function(latLon) {
         data.current.humidity,
         data.current.uvi,
         data.current.wind_speed]
-        //console.log(currentWeeather);
+        console.log(currentWeather);
       displayCurrentWeather(currentWeather);
 
       var forecast = data.daily;
@@ -168,13 +178,15 @@ var listCities = function() {
   const storageCities = localStorage.getItem("savedCities");const listedCities = JSON.parse(storageCities);
   console.log(listedCities);
 
+  if (listedCities) {
   for (var i = 0; i < listedCities.length; i++) {
     var cityListEl = document.createElement("button");
     cityListEl.className = "past-city-btn";
     cityListEl.textContent = listedCities[i].city;
     pastCityListEl.appendChild(cityListEl);
   }
-  };
+}
+};
   listCities();
 
 var pastCityBtnHandler = function(e) {
@@ -184,7 +196,13 @@ var pastCityBtnHandler = function(e) {
   weatherByCity(city);
 };
 
+var clearHistory = function() {
+  localStorage.clear();
+  while (pastCityListEl.hasChildNodes()) {
+    pastCityListEl.removeChild(pastCityListEl.firstChild);
+  }
+};
+
 chooseCityEl.addEventListener("submit", cityBtnHandler);
 pastCityListEl.addEventListener("click", pastCityBtnHandler);
-
-//weatherByCity("Oakdale");
+clearCityHistoryEl.addEventListener("click", clearHistory);

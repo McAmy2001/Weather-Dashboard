@@ -1,3 +1,4 @@
+//Declare DOM elements
 const cityBtnEl = document.getElementById("cityBtn");
 const chooseCityEl = document.getElementById("choose-city");
 const cityInputEl = document.getElementById("city");
@@ -8,7 +9,7 @@ const pastCityListEl = document.getElementById("past-city-list");
 const clearCityHistoryEl = document.getElementById("clear-saved-cities");
 const iconContainerEl = document.getElementById("icon-container");
 
-
+//Current Weather display
 var displayCurrentWeather = function(weatherArray) {
   var currentDate = document.createElement("p");
   const day = moment().format('dddd');
@@ -30,6 +31,7 @@ var displayCurrentWeather = function(weatherArray) {
   var currentUVI = document.createElement("p");
   currentUVI.innerHTML = "UV Index: <span>" + weatherArray[2] + "</span>";
   currentUVI.className = ("current-list-item");
+  // Color code UVI for low, mod, high, very high
   if (weatherArray[2] < 3.00) {
     currentUVI.classList.add("uv-low");
   } else if (weatherArray[2] >= 3.00 && weatherArray[2] < 6.00) {
@@ -55,8 +57,9 @@ var displayCurrentWeather = function(weatherArray) {
   iconContainerEl.appendChild(iconImg);
 };
 
+// Forecast display
 var displayForecast = function(forecastArray) {
-
+  // Loop through array for each day
   for (var i = 1; i < 6; i++) {
     var forecastBoxEl = document.createElement("div");
     forecastBoxEl.className = "forecast-display-div";
@@ -107,6 +110,7 @@ var displayForecast = function(forecastArray) {
   }
 }
 
+// Search by Lat and Lon coordinates from city search
 var weatherByCoordinates = function(latLon) {
   var apiUrl2 = ("https://api.openweathermap.org/data/2.5/onecall?lat=" + latLon + "&units=imperial&exclude=hourly,minutely&appid=b8646725b8d223e6d4478a73d1089c53");
   
@@ -134,6 +138,7 @@ var weatherByCoordinates = function(latLon) {
   });
 };
 
+//Save cities searched in local storage
 var saveCity = function(cityInput) {
   const storageCities = localStorage.getItem("savedCities");
   const currentCity = {city: cityInput};
@@ -147,7 +152,7 @@ var saveCity = function(cityInput) {
   }
 };
 
-
+// Search Open Weather by city to get Lat and Lon coordinates
 var weatherByCity = function(city) {
   chosenCityEl.textContent = city;
   var apiUrl = ("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=b8646725b8d223e6d4478a73d1089c53");
@@ -182,6 +187,7 @@ var cityBtnHandler = function(event) {
   cityInputEl.value = ''; 
 }
 
+// List past city searches on page initialization
 var listCities = function() {
   const storageCities = localStorage.getItem("savedCities");const listedCities = JSON.parse(storageCities);
 
@@ -201,6 +207,7 @@ var pastCityBtnHandler = function(e) {
   weatherByCity(city);
 };
 
+// Clear past city search history
 var clearHistory = function() {
   localStorage.clear();
   while (pastCityListEl.hasChildNodes()) {
@@ -208,6 +215,7 @@ var clearHistory = function() {
   }
 };
 
+// Event Handlers
 chooseCityEl.addEventListener("submit", cityBtnHandler);
 pastCityListEl.addEventListener("click", pastCityBtnHandler);
 clearCityHistoryEl.addEventListener("click", clearHistory);

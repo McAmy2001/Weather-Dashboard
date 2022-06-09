@@ -15,11 +15,6 @@ body {
   background-color: var(--primary);
 }
 
-
-/*.flex-row {*/
-/*  display: inline;*/
-/*}*/
-
 header {
   color: var(--secondary);
   text-align: center;
@@ -29,13 +24,13 @@ header {
   background-position: 80%;
   font-size: 2.0em;
 }
+
 header p {
   font-size: 24px;
 }
 
 main {
   margin: 10px;
-  
 }
 
 .left-div {
@@ -43,10 +38,8 @@ main {
   margin-bottom: 10px;
   border: 2px solid var(--secondary);
   border-radius: 5px;
-  
-  
-  
 }
+
 .left-div h4, .left-div h5 {
   width: 100%;
   background-color: var(--secondary);
@@ -55,6 +48,11 @@ main {
   text-align: center;
   margin-top: 5px;
 }
+
+#past-city-list {
+  margin-top: 30px;
+}
+
 #cityBtn, .past-city-btn {
   width: 100%;
   border: 2px solid var(--secondary);
@@ -69,6 +67,7 @@ main {
   background-color: var(--secondary);
   color: var(--tertiary);
 }
+
 #city {
   width: 100%;
   height: 40px;
@@ -94,7 +93,6 @@ main {
   background-color: var(--tertiary);
   display: flex;
   justify-content: space-between;
-  
 }
 
 .current-list-item {

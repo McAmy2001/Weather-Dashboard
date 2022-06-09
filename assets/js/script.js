@@ -10,7 +10,6 @@ const iconContainerEl = document.getElementById("icon-container");
 
 
 var displayCurrentWeather = function(weatherArray) {
-  //console.log(weatherArray);
   var currentDate = document.createElement("p");
   const day = moment().format('dddd');
   const date = moment().format('MMMM Do YYYY');
@@ -20,23 +19,31 @@ var displayCurrentWeather = function(weatherArray) {
 
   var currentTemp = document.createElement("p");
   currentTemp.innerHTML = "Temperature: " + weatherArray[0] + "&#8457";
-  //console.log(currentTemp.textContent);
-  currentDate.className = ("current-list-item");
+  currentTemp.className = ("current-list-item");
   currentWeatherDisplay.appendChild(currentTemp);
 
   var currentHumidity = document.createElement("p");
   currentHumidity.textContent = "Humidity: " + weatherArray[1] + "%";
-  currentDate.className = ("current-list-item");
+  currentHumidity.className = ("current-list-item");
   currentWeatherDisplay.appendChild(currentHumidity);
 
   var currentUVI = document.createElement("p");
-  currentUVI.textContent = "UV Index: " + weatherArray[2];
-  currentDate.className = ("current-list-item");
+  currentUVI.innerHTML = "UV Index: <span>" + weatherArray[2] + "</span>";
+  currentUVI.className = ("current-list-item");
+  if (weatherArray[2] < 3.00) {
+    currentUVI.classList.add("uv-low");
+  } else if (weatherArray[2] >= 3.00 && weatherArray[2] < 6.00) {
+    currentUVI.classList.add("uv-moderate");
+  } else if (weatherArray[2] >= 6.00 && weatherArray[2] < 8.00) {
+    currentUVI.classList.add("uv-high");
+  } else {
+    currentWeather[2].classList[2].add("uv-very-high");
+  }
   currentWeatherDisplay.appendChild(currentUVI);
 
   var currentWindSpeed = document.createElement("p");
   currentWindSpeed.textContent = "Wind speed: " + weatherArray[3] + "mph";
-  currentDate.className = ("current-list-item");
+  currentWindSpeed.className = ("current-list-item");
   currentWeatherDisplay.appendChild(currentWindSpeed);
 
   currentWeatherDisplay.classList.add("current-box");
@@ -49,12 +56,8 @@ var displayCurrentWeather = function(weatherArray) {
 };
 
 var displayForecast = function(forecastArray) {
-  //console.log(forecastArray);
-  //console.log(forecastArray[0].dt);
 
   for (var i = 1; i < 6; i++) {
-    //console.log(forecastArray[i].temp.day);
-    //console.log(forecastArray[i].weather[0].icon);
     var forecastBoxEl = document.createElement("div");
     forecastBoxEl.className = "forecast-display-div";
 
@@ -89,6 +92,15 @@ var displayForecast = function(forecastArray) {
     var forecastUVIEl = document.createElement("p");
     forecastUVIEl.innerHTML = "UV Index: " + forecastArray[i].uvi;
     forecastUVIEl.className = "forecast-list-item";
+    if (forecastArray[i].uvi < 3.00) {
+      forecastUVIEl.classList.add("uv-low");
+    } else if (forecastArray[i].uvi >= 3.00 && forecastArray[i].uvi < 6.00) {
+      forecastUVIEl.classList.add("uv-moderate");
+    } else if (forecastArray[i].uvi >= 6.00 && forecastArray[i].uvi < 8.00) {
+      forecastUVIEl.classList.add("uv-high");
+    } else {
+      forecastUVIEl.classList.add("uv-very-high");
+    }
     forecastBoxEl.appendChild(forecastUVIEl);
 
     forecastDisplayEl.appendChild(forecastBoxEl);
@@ -96,14 +108,11 @@ var displayForecast = function(forecastArray) {
 }
 
 var weatherByCoordinates = function(latLon) {
-  //console.log("made it");
   var apiUrl2 = ("https://api.openweathermap.org/data/2.5/onecall?lat=" + latLon + "&units=imperial&exclude=hourly,minutely&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl2).then(function(response) {
-    //console.log(response);
     if (response.ok) {
       response.json().then(function(data) {
-        //console.log(data);
       var currentWeather = [
         data.current.temp,
         data.current.humidity,
@@ -126,7 +135,6 @@ var weatherByCoordinates = function(latLon) {
 };
 
 var saveCity = function(cityInput) {
-  //console.log("went to save function");
   const storageCities = localStorage.getItem("savedCities");
   const currentCity = {city: cityInput};
 
@@ -145,20 +153,15 @@ var weatherByCity = function(city) {
   var apiUrl = ("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl).then(function(response) {
-    //console.log(response);
     if (response.ok) {
-      //console.log(response);
       response.json().then(function(data) {
       var cityInput = data.name;
       console.log(city);
       var latitude = data.coord.lat;
       var latEdit = latitude.toFixed(2);
-      //console.log(latEdit);
       var longitude = data.coord.lon;
       var lonEdit = longitude.toFixed(2);
-      //console.log(lonEdit);
       var latLon = (latEdit + "&lon=" + lonEdit);
-      //console.log(latLon);
       weatherByCoordinates(latLon);
       saveCity(cityInput);
       });
@@ -173,9 +176,7 @@ var weatherByCity = function(city) {
 
 var cityBtnHandler = function(event) {
   event.preventDefault();
-  //console.log("Clicked");
   var city = cityInputEl.value.trim();
-  //console.log(city);
   
   weatherByCity(city);
   cityInputEl.value = ''; 
@@ -183,7 +184,6 @@ var cityBtnHandler = function(event) {
 
 var listCities = function() {
   const storageCities = localStorage.getItem("savedCities");const listedCities = JSON.parse(storageCities);
-  //console.log(listedCities);
 
   if (listedCities) {
   for (var i = 0; i < listedCities.length; i++) {
@@ -194,12 +194,10 @@ var listCities = function() {
   }
 }
 };
-  listCities();
+listCities();
 
 var pastCityBtnHandler = function(e) {
-  //console.log(e.target);
   var city = e.target.textContent;
-  //console.log(city);
   weatherByCity(city);
 };
 

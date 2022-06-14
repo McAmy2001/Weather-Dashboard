@@ -95,6 +95,10 @@ main {
   justify-content: space-between;
 }
 
+.initial-display {
+  display: none;
+}
+
 .current-list-item {
   font-size: 20px;
   color: var(--secondary);

@@ -11,7 +11,8 @@ const clearCityHistoryEl = document.getElementById("clear-saved-cities");
 const iconContainerEl = document.getElementById("icon-container");
 
 //Current Weather display
-var displayCurrentWeather = function(weatherArray) {
+function displayCurrentWeather(weatherArray) {
+  currentWeatherContainer.classList.remove("initial-display");
   while (currentWeatherDisplay.firstChild) {
     currentWeatherDisplay.removeChild(currentWeatherDisplay.firstChild);
   }
@@ -69,7 +70,7 @@ var displayCurrentWeather = function(weatherArray) {
 };
 
 // Forecast display
-var displayForecast = function(forecastArray) {
+function displayForecast(forecastArray) {
   while (forecastDisplayEl.firstChild) {
     forecastDisplayEl.removeChild(forecastDisplayEl.firstChild);
   }
@@ -125,13 +126,13 @@ var displayForecast = function(forecastArray) {
 }
 
 // Search by Lat and Lon coordinates from city search
-var weatherByCoordinates = function(latLon, city) {
+function weatherByCoordinates(latLon, city) {
   let apiUrl2 = ("https://api.openweathermap.org/data/2.5/onecall?lat=" + latLon + "&units=imperial&exclude=hourly,minutely&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl2).then(function(response) {
     if (response.ok) {
       response.json().then(function(data) {
-        console.log(data);
+        //console.log(data);
       let currentWeather = [
         data.current.temp,
         data.current.humidity,
@@ -139,7 +140,7 @@ var weatherByCoordinates = function(latLon, city) {
         data.current.wind_speed,
         data.current.weather[0].icon,
         city]
-        console.log(currentWeather);
+        //console.log(currentWeather);
         //console.log(city);
         
       displayCurrentWeather(currentWeather);
@@ -157,34 +158,36 @@ var weatherByCoordinates = function(latLon, city) {
 };
 
 //Save cities searched in local storage
-var saveCity = function(cityInput) {
+function saveCity(cityInput) {
   const storageCities = localStorage.getItem("savedCities");
   const currentCity = {city: cityInput};
   const citiesArray = JSON.parse(storageCities);
-  console.log(citiesArray);
-  console.log(currentCity);
+  //console.log(storageCities);
+  //console.log(citiesArray);
+  //console.log(currentCity);
 
   if (storageCities === null) {
     localStorage.setItem("savedCities", JSON.stringify([currentCity]));
-  } else if (citiesArray.includes(currentCity)) {
-      localStorage.clear();
+  } else if (citiesArray.find(e => e.city === cityInput)) {
+      console.log("found city");
       localStorage.setItem("savedCities", JSON.stringify(citiesArray));
   } else {
     citiesArray.push(currentCity);
     localStorage.setItem("savedCities", JSON.stringify(citiesArray));
   }
+  listCities();
 };
 
 // Search Open Weather by city to get Lat and Lon coordinates
-var weatherByCity = function(city) {
+function weatherByCity(city) {
   let apiUrl = ("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl).then(function(response) {
     if (response.ok) {
       response.json().then(function(data) {
-        console.log(data);
+        //console.log(data);
       let cityInput = data.name;
-      console.log(city);
+      //console.log(city);
       let latitude = data.coord.lat;
       let latEdit = latitude.toFixed(2);
       let longitude = data.coord.lon;
@@ -202,7 +205,7 @@ var weatherByCity = function(city) {
 });
 };
 
-var cityBtnHandler = function(event) {
+function cityBtnHandler(event) {
   event.preventDefault();
   let city = cityInputEl.value.trim();
   
@@ -210,8 +213,11 @@ var cityBtnHandler = function(event) {
   cityInputEl.value = ''; 
 }
 
-// List past city searches on page initialization
-var listCities = function() {
+// List past city searches on page initialization and after saving searrched cities
+function listCities() {
+  while (pastCityListEl.firstChild) {
+    pastCityListEl.removeChild(pastCityListEl.firstChild);
+  }
   const storageCities = localStorage.getItem("savedCities");
   const listedCities = JSON.parse(storageCities);
 
@@ -226,13 +232,13 @@ var listCities = function() {
 };
 listCities();
 
-var pastCityBtnHandler = function(e) {
+function pastCityBtnHandler(e) {
   let city = e.target.textContent;
   weatherByCity(city);
 };
 
 // Clear past city search history
-var clearHistory = function() {
+function clearHistory() {
   localStorage.clear();
   while (pastCityListEl.hasChildNodes()) {
     pastCityListEl.removeChild(pastCityListEl.firstChild);

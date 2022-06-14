@@ -4,6 +4,7 @@ const chooseCityEl = document.getElementById("choose-city");
 const cityInputEl = document.getElementById("city");
 const chosenCityEl = document.getElementById("chosenCity");
 const currentWeatherDisplay = document.getElementById("current-weather");
+const currentWeatherContainer = document.querySelector(".current-display");
 const forecastDisplayEl = document.getElementById("forecast-weather");
 const pastCityListEl = document.getElementById("past-city-list");
 const clearCityHistoryEl = document.getElementById("clear-saved-cities");
@@ -11,6 +12,13 @@ const iconContainerEl = document.getElementById("icon-container");
 
 //Current Weather display
 var displayCurrentWeather = function(weatherArray) {
+  while (currentWeatherDisplay.firstChild) {
+    currentWeatherDisplay.removeChild(currentWeatherDisplay.firstChild);
+  }
+
+  chosenCityEl.textContent = "Current Weather in " + weatherArray[5] + ":";
+  currentWeatherDisplay.appendChild(chosenCityEl);
+
   var currentDate = document.createElement("p");
   const day = moment().format('dddd');
   const date = moment().format('MMMM Do YYYY');
@@ -111,19 +119,23 @@ var displayForecast = function(forecastArray) {
 }
 
 // Search by Lat and Lon coordinates from city search
-var weatherByCoordinates = function(latLon) {
+var weatherByCoordinates = function(latLon, city) {
   var apiUrl2 = ("https://api.openweathermap.org/data/2.5/onecall?lat=" + latLon + "&units=imperial&exclude=hourly,minutely&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl2).then(function(response) {
     if (response.ok) {
       response.json().then(function(data) {
+        console.log(data);
       var currentWeather = [
         data.current.temp,
         data.current.humidity,
         data.current.uvi,
         data.current.wind_speed,
-        data.current.weather[0].icon]
+        data.current.weather[0].icon,
+        city]
         console.log(currentWeather);
+        //console.log(city);
+        
       displayCurrentWeather(currentWeather);
 
       var forecast = data.daily;
@@ -147,6 +159,9 @@ var saveCity = function(cityInput) {
     localStorage.setItem("savedCities", JSON.stringify([currentCity]));
   } else {
     var citiesArray = JSON.parse(storageCities);
+    if (citiesArray.includes(currentCity)) {
+      localStorage.setItem("savedCities", JSON.stringify(citiesArray))};
+    } else {
     citiesArray.push(currentCity);
     localStorage.setItem("savedCities", JSON.stringify(citiesArray));
   }
@@ -154,12 +169,12 @@ var saveCity = function(cityInput) {
 
 // Search Open Weather by city to get Lat and Lon coordinates
 var weatherByCity = function(city) {
-  chosenCityEl.textContent = city;
   var apiUrl = ("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=b8646725b8d223e6d4478a73d1089c53");
   
   fetch(apiUrl).then(function(response) {
     if (response.ok) {
       response.json().then(function(data) {
+        console.log(data);
       var cityInput = data.name;
       console.log(city);
       var latitude = data.coord.lat;
@@ -167,7 +182,7 @@ var weatherByCity = function(city) {
       var longitude = data.coord.lon;
       var lonEdit = longitude.toFixed(2);
       var latLon = (latEdit + "&lon=" + lonEdit);
-      weatherByCoordinates(latLon);
+      weatherByCoordinates(latLon, cityInput);
       saveCity(cityInput);
       });
     } else {

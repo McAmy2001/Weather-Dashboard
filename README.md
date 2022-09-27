@@ -1,4 +1,4 @@
-# Week 6 Challenge: Weather Dashboard
+# Bootcamp Module 6: Server Side APIs, Challenge: Weather Dashboard
 
 ## This week's project is a Weather Dashboard built from scratch which displays the current and forecasted weather of the city(ies) the user searches for. Data for the dashboard is obtained from the Open Weather API.
 

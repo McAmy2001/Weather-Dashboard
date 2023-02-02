@@ -48,7 +48,7 @@ function displayCurrentWeather(weatherArray) {
   } else if (weatherArray[2] >= 6.00 && weatherArray[2] < 8.00) {
     currentUVI.classList.add("uv-high");
   } else {
-    currentWeather[2].classList[2].add("uv-very-high");
+    currentUVI.classList.add("uv-very-high");
   }
   currentWeatherDisplay.appendChild(currentUVI);
 
